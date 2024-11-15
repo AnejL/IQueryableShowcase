@@ -34,7 +34,7 @@ namespace IQueryableShowcase.Model.Filters
                 list.Add(e => e.Name.ToLowerInvariant().Contains(this.EventName.ToLowerInvariant()));
             }
 
-            // kateri eventi imajo vrednost LocationName v imenu?
+            // kateri eventi imajo lokacijo z imenom LocationName?
             if (!string.IsNullOrEmpty(this.LocationName))
             {
                 list.Add(e => e.Location.Name.ToLowerInvariant().Contains(this.LocationName.ToLowerInvariant()));
