@@ -23,33 +23,21 @@ namespace IQueryableShowcase.Model.Filters
 
         public DateTime? EndTo { get; set; }
 
-        
-        public List<Expression<Func<Event, bool>>> GetFilterExpressionList()
-        {
-            var list = new List<Expression<Func<Event, bool>>>();
 
-            // kateri eventi imajo vrednost EventName v imenu?
-            if (!string.IsNullOrEmpty(this.EventName))
-            {
-                list.Add(e => e.Name.ToLowerInvariant().Contains(this.EventName.ToLowerInvariant()));
-            }
-
-            // kateri eventi imajo lokacijo z imenom LocationName?
-            if (!string.IsNullOrEmpty(this.LocationName))
-            {
-                list.Add(e => e.Location.Name.ToLowerInvariant().Contains(this.LocationName.ToLowerInvariant()));
-            }
-
-            // datum zacetka eventa >= StartFrom
-            if (this.StartFrom != null)
-                list.Add(e => e.Start >= this.StartFrom);
-
-            // datum konca eventa <= EndTo
-            if (this.EndTo != null)
-                list.Add(e => e.End <= this.EndTo);
-
-            return list;
-        }
+        public List<Expression<Func<Event, bool>>> GetFilterExpressionList() => [
+            e =>            
+                // kateri eventi imajo vrednost EventName v imenu?
+                (!string.IsNullOrEmpty(EventName) && e.Name.ToLowerInvariant().Contains(this.EventName.ToLowerInvariant())) 
+                ||
+                // kateri eventi imajo lokacijo z imenom LocationName?
+                (!string.IsNullOrEmpty(this.LocationName) && e.Location.Name.ToLowerInvariant().Contains(this.LocationName.ToLowerInvariant()))
+                ||
+                // datum zacetka eventa >= StartFrom
+                (this.StartFrom != null && e.Start >= this.StartFrom)
+                ||            
+                // datum konca eventa <= EndTo
+                (this.EndTo != null && e.End <= this.EndTo)
+        ];
 
         public bool IsEmpty()
         {

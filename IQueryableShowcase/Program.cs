@@ -8,6 +8,14 @@ using IQueryableShowcase.Model.Filters;
 var eventService = new EventService();
 var events = eventService.GetEvents();
 
+var filterRepositoryService = new EventFilterRepositoryService();
+
+var inLjubljana = await filterRepositoryService.GetEventFilter("inLjubljana.json");
+
+var filterService = new FilterService<Event>();
+
+var filtered = filterService.Filter(events, inLjubljana).ToList();
+
 
 
 Console.WriteLine("B");
